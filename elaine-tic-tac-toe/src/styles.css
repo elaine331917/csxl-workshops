@@ -10,7 +10,8 @@ body {
 
 h1 {
   margin-top: 0;
-  font-size: 22px;
+  font-size: 40px;
+  margin-bottom: 40px;
 }
 
 h2 {
@@ -63,15 +64,15 @@ body {
   color: white;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 4rem;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
+  height: 5rem;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 5rem;
 }
 
 .board-row:after {
@@ -86,8 +87,40 @@ body {
 .game {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board {
+  border: 2px solid white;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .game-info {
   margin-left: 20px;
+}
+
+button {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border: 1px solid white;
+}
+
+.travel-buttons {
+  margin: 5px;
+}
+
+.travel-button {
+  padding: 5px;
 }
