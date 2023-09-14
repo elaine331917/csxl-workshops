@@ -124,3 +124,8 @@ button {
 .travel-button {
   padding: 5px;
 }
+
+.status {
+  text-align: center;
+  font-weight: bold;
+}
