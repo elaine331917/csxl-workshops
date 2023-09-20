@@ -8,6 +8,24 @@ module.exports = {
     './src/**/*.{ts,tsx}',
 	],
   theme: {
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      'white': '#ffffff',
+      'plum': {
+        100: '#FEE6FF',
+        200: '#F6CBF7',
+        300: '#FFAEFD',
+        400: '#DF9DDE',
+        500: '#954293',
+        600: '#7D2279',
+        700: '#650360',
+        800: '#4B0247',
+        900: '#380135',
+      },
+    },
+  },
+  theme: {
     container: {
       center: true,
       padding: "2rem",
@@ -49,6 +67,17 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        'plum': {
+          100: '#FEE6FF',
+          200: '#F6CBF7',
+          300: '#FFAEFD',
+          400: '#DF9DDE',
+          500: '#954293',
+          600: '#7D2279',
+          700: '#650360',
+          800: '#4B0247',
+          900: '#380135',
         },
       },
       borderRadius: {
