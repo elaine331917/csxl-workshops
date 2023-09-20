@@ -76,36 +76,21 @@
   }
 }
 
+/* Custom card styles */
+
 .custom-card {
   display: inline-flex;
   padding: 18px 26px;
   align-items: flex-start;
   gap: 12px;
-  border-radius: 10px;
-  border: 2px solid;
-}
-
-.custom-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0;
+  box-shadow: 5px 5px 0px 0px #FEE6FF;
 }
 
 .custom-card-content {
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 12px;
   padding:0;
-}
-
-.page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 /* Text styles */
