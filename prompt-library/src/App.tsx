@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge"
 import { Toggle } from "@/components/ui/toggle"
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 
+const MAX_CHARACTERS: number = 136;
+
 interface Prompt {
   header: string;
   content: string;
@@ -27,23 +29,15 @@ function PromptCard({ prompt }: PromptCardProps) {
     <>
       <Card className="inline-flex flex-col custom-card border-plum-700 bg-white">
         <CardHeader className="flex flex-row custom-card-header w-72">
-          <Badge>
-            {prompt.category}
-          </Badge>
-          <Toggle>
-            Favorite
-          </Toggle>
+          <Badge>{prompt.category}</Badge>
+          <Toggle>Favorite</Toggle>
         </CardHeader>
         <CardContent className="flex flex-col custom-card-content w-72">
-          <CardTitle>
-            {prompt.header}
-          </CardTitle>
-          <CardDescription className="flex text-left">
-            {prompt.content}
-          </CardDescription>
+          <CardTitle>{prompt.header}</CardTitle>
+          <CardDescription className="flex text-left h-24 text-base text-black">{prompt.content}</CardDescription>
         </CardContent>
         <CardFooter className="flex flex-row p-0 custom-card-footer items-center justify-between w-72">
-          <div className="flex text-left">
+          <div className="flex text-left text-sm text-slate-700">
             Used {prompt.usage} times
           </div>
           <div className="flex flex-row items-center justify-between">
@@ -58,10 +52,20 @@ function PromptCard({ prompt }: PromptCardProps) {
 }
 
 function Grid({ prompts }: GridProps) {
+  const truncateContent = (content: string) => {
+    if (content.length > MAX_CHARACTERS) {
+      return content.substring(0, MAX_CHARACTERS) + "...";
+    }
+    return content;
+  };
+  
   return (
     <div className="flex flex-wrap gap-1">
       {prompts.map((prompt, index) => (
-        <PromptCard key={index} prompt={prompt} />
+        <PromptCard
+        key={`prompt-${index}`}
+        prompt={{ ...prompt, content: truncateContent(prompt.content) }}
+        />
       ))}
     </div>
   );
@@ -74,42 +78,42 @@ function App() {
       header: "Prompt Header 1",
       content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
       votes: 0,
-      category: "Category 1",
+      category: "Education",
       usage: 234
     },
     {
       header: "Prompt Header 2",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      content: "Testing 2 Lorem ipsum dolor sit amet...",
       votes: 0,
-      category: "Category 2",
+      category: "Coding",
       usage: 123
     },
     {
       header: "Prompt Header 3",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       votes: 0,
-      category: "Category 1",
+      category: "Writing",
       usage: 234
     },
     {
       header: "Prompt Header 4",
       content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
       votes: 0,
-      category: "Category 2",
+      category: "Art",
       usage: 123
     },
     {
       header: "Prompt Header 5",
       content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
       votes: 0,
-      category: "Category 1",
+      category: "Worldbuilding",
       usage: 234
     },
     {
       header: "Prompt Header 6",
       content: "Prompt v1. adipiscing e...",
       votes: 0,
-      category: "Category 2",
+      category: "Technology",
       usage: 123
     },
     {
@@ -136,8 +140,9 @@ function App() {
   ];
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="page flex flex-col items-center justify-center">
       <h1>Featured Prompts</h1>
+      <br></br>
       <Grid prompts={prompts}></Grid>
     </div>
   )
