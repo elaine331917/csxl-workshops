@@ -15,7 +15,6 @@ interface Prompt {
   usage: number;
 }
 
-// unsure if this is the right syntax
 interface PromptCardProps {
   prompt: Prompt;
 }
@@ -25,12 +24,30 @@ interface GridProps {
 }
 
 function PromptCard({ prompt }: PromptCardProps) {
+  const [votes, setVotes] = useState(prompt.votes);
+  
+  const delay = () => new Promise<void>((res) => setTimeout(() => res(), 800));
+
+  async function handleVoteUp() {
+    await delay();
+    setVotes((v) => v + 1);
+  };
+
+  async function handleVoteDown() {
+    await delay();
+    setVotes((v) => v - 1);
+  };
+  
   return (
     <>
       <Card className="inline-flex flex-col custom-card border-2 rounded-xl border-plum-700 bg-white">
         <CardHeader className="flex flex-row justify-between p-0 items-center custom-card-header w-72">
           <Badge className="bg-plum-100 hover:bg-plum-200 text-plum-600 px-3 py-2 rounded-lg text-sm">{prompt.category}</Badge>
-          <Toggle className="text-plum-700">Favorite</Toggle>
+          <Toggle className="text-plum-700">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <path d="M15 2.60396L18.0442 9.92317L18.2788 10.4871L18.8876 10.5359L26.7893 11.1694L20.7691 16.3264L20.3052 16.7238L20.4469 17.3179L22.2862 25.0286L15.5213 20.8966L15 20.5782L14.4787 20.8966L7.71379 25.0286L9.55308 17.3179L9.6948 16.7238L9.23092 16.3264L3.21066 11.1694L11.1124 10.5359L11.7212 10.4871L11.9558 9.92317L15 2.60396Z" stroke="#7D2279" stroke-width="2"/>
+            </svg>
+          </Toggle>
         </CardHeader>
         <CardContent className="flex flex-col custom-card-content w-72">
           <CardTitle>{prompt.header}</CardTitle>
@@ -41,9 +58,17 @@ function PromptCard({ prompt }: PromptCardProps) {
             Used {prompt.usage} times
           </div>
           <div className="flex flex-row items-center justify-between">
-            <Button className="bg-plum-700 hover:bg-plum-600">Up</Button>
-            <div className="px-2 text-plum-700">{prompt.votes}</div>
-            <Button className="bg-plum-700 hover:bg-plum-600">Down</Button>
+            <Button variant="ghost" size="icon" onClick={handleVoteUp}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" viewBox="0 0 25 30" fill="none">
+                <path d="M1.4005 14.0582L11.7381 1.8964C12.1374 1.4266 12.8626 1.4266 13.2619 1.8964L23.5995 14.0582C24.1516 14.7077 23.69 15.7059 22.8376 15.7059H18.6471C18.0948 15.7059 17.6471 16.1536 17.6471 16.7059V27.2059C17.6471 27.7582 17.1993 28.2059 16.6471 28.2059H8.35294C7.80066 28.2059 7.35294 27.7582 7.35294 27.2059V16.7059C7.35294 16.1536 6.90523 15.7059 6.35294 15.7059H2.16244C1.31003 15.7059 0.848438 14.7077 1.4005 14.0582Z" stroke="#650360" stroke-width="2"/>
+              </svg>
+            </Button>
+            <div className="px-2 text-plum-700">{votes}</div>
+            <Button variant="ghost" size="icon" onClick={handleVoteDown}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="29" viewBox="0 0 25 29" fill="none">
+                <path d="M23.5995 15.1477L13.2619 27.3095C12.8626 27.7793 12.1374 27.7793 11.7381 27.3095L1.4005 15.1477C0.848438 14.4982 1.31003 13.5 2.16244 13.5L6.35294 13.5C6.90523 13.5 7.35294 13.0523 7.35294 12.5V2C7.35294 1.44772 7.80066 1 8.35294 1L16.6471 1C17.1993 1 17.6471 1.44772 17.6471 2L17.6471 12.5C17.6471 13.0523 18.0948 13.5 18.6471 13.5H22.8376C23.69 13.5 24.1516 14.4982 23.5995 15.1477Z" stroke="#650360" stroke-width="2"/>
+              </svg>
+            </Button>
           </div>
         </CardFooter>
       </Card>
@@ -73,7 +98,7 @@ function Grid({ prompts }: GridProps) {
 
 
 function App() {
-  const prompts: Prompt[] = [
+  var prompts: Prompt[] = [
     {
       header: "Prompt Header 1",
       content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
