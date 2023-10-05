@@ -12,15 +12,17 @@ const requestTime = function (req, res, next) {
   next();
 };
 
+app.use(requestTime)
+
 /* Retrieve all prompts */
 app.get('/prompts', (req, res) => {
+  const data = req.body
   res.send('get all the prompts')
 })
 
 /* Retrieve prompt from id */
 app.get('/prompts/:id', (req, res) => {
   const id = req.params.id
-
   res.send(`get prompt with id: ${id}`)
 })
 
