@@ -10,49 +10,31 @@ const requestTime = function (req, res, next) {
 
 app.use(requestTime);
 
+// Route to get data
+app.get('/getData', (req, res) => {
+  const data = 'Hello World';
+  res.send(data);
+});
 
-/* Retrieve all prompts */
-app.get('/prompts', (req, res) => {
-  res.send('get all the prompts')
-})
+// Route to push data to somewhere else
+app.post('/pushData', (req, res) => {
+  const newData = req.body; // send data in the request body
+  res.send('Data successfully pushed to somewhere else.');
+});
 
-/* Retrieve prompt from id */
-app.get('/prompts/:id', (req, res) => {
-  const id = req.params.id
+// Route to update existing data
+app.put('/updateData/:id', (req, res) => {
+  const itemId = req.params.id; // pass the ID in the route parameters
+  res.send(`Data with ID ${itemId} successfully updated.`);
+});
 
-  res.send(`get prompt with id: ${id}`)
-})
+// Route to delete data
+app.delete('/deleteData/:id', (req, res) => {
+  const itemId = req.params.id; //pass the ID in the route parameters
+  res.send(`Data with ID ${itemId} successfully deleted.`);
+});
 
-/* Retrieve form to create new prompt */
-app.get('/prompts/new', (req, res) => {
-  res.send('new prompt form')
-})
-
-/* Create new prompt */
-app.post('/prompts', (req, res) => {
-  res.send('create a new prompt')
-})
-
-/* Delete prompt from id */
-app.delete('/prompts/:id', (req, res) => {
-  const id = req.params.id
-  res.send(`remove prompt with id: ${id}`)
-})
-
-/* Edit prompt from id */
-app.put('/prompts/:id/edit', (req, res) => {
-  const id = req.params.id
-  res.send(`edit prompt with id: ${id}`)
-})
-
-/* app.put('/prompts/:id/upvote', (res, req) => {
-  res.send('upvote prompt')
-})
-app.put('/prompts/:id/downvote', (res, req) => {
-  res.send('downvote prompt')
-}) */
-
-
+// Start the server
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
