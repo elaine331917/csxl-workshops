@@ -2,7 +2,11 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const cors = require('cors');
+app.use(cors());
+
 app.get('/', (req, res) => {
+  console.log("here")
   res.send('Hello World!')
 })
 
@@ -17,7 +21,74 @@ app.use(requestTime)
 /* Retrieve all prompts */
 app.get('/prompts', (req, res) => {
   const data = req.body
-  res.send('get all the prompts')
+  
+  var prompts = [
+    {
+      header: "Prompt Header 1",
+      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      votes: 101,
+      category: "Education",
+      usage: 234
+    },
+    {
+      header: "Prompt Header 2",
+      content: "Testing 2 Lorem ipsum dolor sit amet...",
+      votes: 76,
+      category: "Coding",
+      usage: 123
+    },
+    {
+      header: "Prompt Header 3",
+      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      votes: 34,
+      category: "Writing",
+      usage: 234
+    },
+    {
+      header: "Prompt Header 4",
+      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      votes: 2,
+      category: "Art",
+      usage: 123
+    },
+    {
+      header: "Prompt Header 5",
+      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      votes: 0,
+      category: "Worldbuilding",
+      usage: 234
+    },
+    {
+      header: "Prompt Header 6",
+      content: "Prompt v1. adipiscing e...",
+      votes: 0,
+      category: "Technology",
+      usage: 123
+    },
+    {
+      header: "Prompt Header 7",
+      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      votes: 0,
+      category: "Coding",
+      usage: 234
+    },
+    {
+      header: "Prompt Header 8",
+      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      votes: 0,
+      category: "Homework",
+      usage: 123
+    },
+    {
+      header: "Prompt Header 9",
+      content: "Prompt v1. Lorem ipsum dolor scing elit, sed doore magna aliqua...",
+      votes: -2,
+      category: "Education",
+      usage: 123
+    },
+  ];
+
+  res.send(prompts)
 })
 
 /* Retrieve prompt from id */

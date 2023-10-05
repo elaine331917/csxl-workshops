@@ -101,84 +101,20 @@ function App() {
   const [data, setData] = useState(null)
   useEffect(() => {
     async function fetchData() {
-      const data = await fetch("/prompts")
-      setData(data)
+      const data = await fetch("http://localhost:3000/prompts").then(r => r.json()).then(data => setData(data)).catch(error => console.error(error));
     }
     fetchData()
     
   }, [])
-  console.log(data)
-  var prompts: Prompt[] = [
-    {
-      header: "Prompt Header 1",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
-      votes: 101,
-      category: "Education",
-      usage: 234
-    },
-    {
-      header: "Prompt Header 2",
-      content: "Testing 2 Lorem ipsum dolor sit amet...",
-      votes: 76,
-      category: "Coding",
-      usage: 123
-    },
-    {
-      header: "Prompt Header 3",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      votes: 34,
-      category: "Writing",
-      usage: 234
-    },
-    {
-      header: "Prompt Header 4",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
-      votes: 2,
-      category: "Art",
-      usage: 123
-    },
-    {
-      header: "Prompt Header 5",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
-      votes: 0,
-      category: "Worldbuilding",
-      usage: 234
-    },
-    {
-      header: "Prompt Header 6",
-      content: "Prompt v1. adipiscing e...",
-      votes: 0,
-      category: "Technology",
-      usage: 123
-    },
-    {
-      header: "Prompt Header 7",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
-      votes: 0,
-      category: "Coding",
-      usage: 234
-    },
-    {
-      header: "Prompt Header 8",
-      content: "Prompt v1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
-      votes: 0,
-      category: "Homework",
-      usage: 123
-    },
-    {
-      header: "Prompt Header 9",
-      content: "Prompt v1. Lorem ipsum dolor scing elit, sed doore magna aliqua...",
-      votes: -2,
-      category: "Education",
-      usage: 123
-    },
-  ];
+  if (data) {
+    console.log(data)
+  }
 
   return (
     <div>
       <h1>Featured Prompts</h1>
       <br></br>
-      <Grid prompts={prompts}></Grid>
+      {data&&<Grid prompts={data}></Grid>}
     </div>
   )
 }
