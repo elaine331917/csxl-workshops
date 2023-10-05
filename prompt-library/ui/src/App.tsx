@@ -101,12 +101,12 @@ function App() {
   const [data, setData] = useState(null)
   useEffect(() => {
     async function fetchData() {
-      const data = await fetch("http://localhost:3000")
+      const data = await fetch("/prompts")
       setData(data)
     }
     fetchData()
     
-  })
+  }, [])
   console.log(data)
   var prompts: Prompt[] = [
     {
