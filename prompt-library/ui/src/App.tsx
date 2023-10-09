@@ -24,39 +24,34 @@ interface GridProps {
 }
 
 function PromptCard({ prompt }: PromptCardProps) {
-  const [votes, setVotes] = useState(prompt.votes);
-  
+  const [upVotes, setUpVotes] = useState(prompt.votes);
+  const [downVotes, setDownVotes] = useState(prompt.votes);
+  const [isPending, setIsPending] = useState(false);
   const delay = () => new Promise<void>((res) => setTimeout(() => res(), 800));
 
   async function handleVoteUp() {
     await delay();
-    setVotes((v) => v + 1);
+    setUpVotes((v) => v + 1);
   };
 
   async function handleVoteDown() {
     await delay();
-    setVotes((v) => v - 1);
+    setDownVotes((v) => v - 1);
   };
   
-  const[isPending, setIsPending] = useState(false);
-
+  
   const handleSendData = async () => { 
-      // Collect data from all cards
-      const allCardData = prompts.map((prompt) => ({
-        header: prompt.header,
-        content: prompt.content,
-        votes: prompt.votes,
-        category: prompt.category,
-        usage: prompt.usage,
-      }));
 
       setIsPending(true);
       await delay();
 
       // Send data to the backend
-      fetch('http://localhost:5173/pushData', {
+      fetch('http://localhost:3000/prompts/:id/edit', {
         method: 'POST',
-        body: JSON.stringify(allCardData),
+        body: JSON.stringify({
+          upVotes: upVotes,
+          downVotes: downVotes,
+        }),
         headers: { 'Content-Type': 'application/json' },
       }).then(() => {
         console.log('Data sent successfully');
