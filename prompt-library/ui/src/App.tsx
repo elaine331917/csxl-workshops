@@ -38,6 +38,32 @@ function PromptCard({ prompt }: PromptCardProps) {
     setVotes((v) => v - 1);
   };
   
+  const[isPending, setIsPending] = useState(false);
+
+  const handleSendData = async () => { 
+      // Collect data from all cards
+      const allCardData = prompts.map((prompt) => ({
+        header: prompt.header,
+        content: prompt.content,
+        votes: prompt.votes,
+        category: prompt.category,
+        usage: prompt.usage,
+      }));
+
+      setIsPending(true);
+      await delay();
+
+      // Send data to the backend
+      fetch('http://localhost:5173/pushData', {
+        method: 'POST',
+        body: JSON.stringify(allCardData),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(() => {
+        console.log('Data sent successfully');
+        setIsPending(false);
+      })
+  }
+
   return (
     <>
       <Card className="inline-flex flex-col custom-card border-2 rounded-xl border-plum-700 bg-white">
@@ -69,6 +95,8 @@ function PromptCard({ prompt }: PromptCardProps) {
                 <path d="M23.5995 15.1477L13.2619 27.3095C12.8626 27.7793 12.1374 27.7793 11.7381 27.3095L1.4005 15.1477C0.848438 14.4982 1.31003 13.5 2.16244 13.5L6.35294 13.5C6.90523 13.5 7.35294 13.0523 7.35294 12.5V2C7.35294 1.44772 7.80066 1 8.35294 1L16.6471 1C17.1993 1 17.6471 1.44772 17.6471 2L17.6471 12.5C17.6471 13.0523 18.0948 13.5 18.6471 13.5H22.8376C23.69 13.5 24.1516 14.4982 23.5995 15.1477Z" stroke="#650360" stroke-width="2"/>
               </svg>
             </Button>
+            { !isPending && <Button variant="ghost" size="icon" onClick={handleSendData}> Send </Button>}
+            { isPending && <Button disabled variant="ghost" size="icon" onClick={handleSendData}> Sending... </Button>}
           </div>
         </CardFooter>
       </Card>
