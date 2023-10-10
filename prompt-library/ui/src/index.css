@@ -104,3 +104,10 @@ h1 {
   font-style: normal;
   font-weight: 400;
 }
+
+.app {
+  display:flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
