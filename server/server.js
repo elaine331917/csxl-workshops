@@ -6,7 +6,6 @@ app.use(cors());
 app.use(express.json())
 
 app.get('/', (req, res) => {
-  console.log("here")
   res.send('Hello World!')
 })
 
@@ -103,7 +102,12 @@ app.get('/prompts', (req, res) => {
 /* Retrieve prompt from id */
 app.get('/prompts/:id', (req, res) => {
   const id = req.params.id
-  res.send(`get prompt with id: ${id}`)
+  result = prompts.find(prompt => prompt.id == id)
+  if (result) {
+    res.send(result)
+  } else {
+    res.send("No such prompt")
+  }
 })
 
 /* Retrieve form to create new prompt */
