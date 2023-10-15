@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Prompt, PromptCard } from './components/prompt'
+import { Prompt, PromptCard } from './components/PromptCard'
 import { Button } from "@/components/ui/button"
 
 const MAX_CHARACTERS: number = 136;
