@@ -1,21 +1,22 @@
 const express = require('express')
 const cors = require('cors');
+const AWS = require('aws-sdk');
 const app = express()
 const port = 3000
+
 app.use(cors());
 app.use(express.json())
+
+AWS.config.update({
+  region: 'us-east-1',
+  endpoint: 'http://localhost:8000'
+});
+
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
-
-// Middleware function requestTime
-const requestTime = function (req, res, next) {
-  req.requestTime = Date.now();
-  next();
-};
-
-app.use(requestTime)
 
 // temporary mock data for prompts
 var prompts = [
@@ -92,6 +93,26 @@ var prompts = [
     usage: 123
   },
 ];
+
+app.get('/test-prompt', (req, res) => {
+  const params = {
+    TableName: 'Prompts',
+    Key: {
+      ID: 1,
+      Header: 'Prompt1',
+    },
+  };
+
+  dynamodb.get(params, (err, data) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Failed to retrieve item from DynamoDB' });
+    } else {
+      console.log('Item:', data.Item);
+      res.json(data.Item);
+    }
+  });
+});
 
 /* Retrieve all prompts */
 app.get('/prompts', (req, res) => {
