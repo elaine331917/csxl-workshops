@@ -94,26 +94,6 @@ var prompts = [
   },
 ];
 
-app.get('/test-prompt', (req, res) => {
-  const params = {
-    TableName: 'Prompts',
-    Key: {
-      ID: 1,
-      Header: 'Prompt1',
-    },
-  };
-
-  dynamodb.get(params, (err, data) => {
-    if (err) {
-      console.error('Error:', err);
-      res.status(500).json({ error: 'Failed to retrieve item from DynamoDB' });
-    } else {
-      console.log('Item:', data.Item);
-      res.json(data.Item);
-    }
-  });
-});
-
 /* Retrieve all prompts */
 app.get('/prompts', (req, res) => {
   const data = req.body
@@ -122,13 +102,24 @@ app.get('/prompts', (req, res) => {
 
 /* Retrieve prompt from id */
 app.get('/prompts/:id', (req, res) => {
+
   const id = req.params.id
-  result = prompts.find(prompt => prompt.id == id)
-  if (result) {
-    res.send(result)
-  } else {
-    res.send("No such prompt")
-  }
+
+  const params = {
+    TableName: 'Prompts',
+    Key: {
+      ID: Number(id),
+    },
+  };
+
+  dynamodb.get(params, (err, data) => {
+    if (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Failed to retrieve item from DynamoDB' });
+    } else {
+      res.send(data.Item);
+    }
+  });
 })
 
 /* Retrieve form to create new prompt */
