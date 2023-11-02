@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 })
 
 // temporary mock data for prompts
-var prompts = [
+/* var prompts = [
   {
     id: 1,
     header: "Prompt Header 1",
@@ -92,12 +92,23 @@ var prompts = [
     category: "Education",
     usage: 123
   },
-];
+]; */
 
 /* Retrieve all prompts */
 app.get('/prompts', (req, res) => {
-  const data = req.body
-  res.send(prompts)
+  const params = {
+    TableName: 'prompts',
+  };
+
+  dynamodb.scan(params, (err, data) => {
+    if (err) {
+      console.error("Error retrieving prompts: ", err);
+      res.status(500).json({ error: "An error occurred while retrieving prompts." });
+    } else {
+      const prompts = data.Items;
+      res.json(prompts);
+    }
+  });
 })
 
 /* Retrieve prompt from id */

@@ -10,4 +10,6 @@
     1. cd into ui folder and run `npm install`
     2. run `npm run dev`
     3. changes in the frontend are automatically reflected
-3. open localhost in your browser at the port your frontend is running on
+4. starting database
+    1. in the root folder, run docker-compose up
+5. open localhost:5173 in the browser
