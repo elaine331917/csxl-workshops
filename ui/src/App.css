@@ -21,7 +21,10 @@
 
 .custom-header {
   width: 100%;
-  border-bottom: 1px solid #DDD;;
+  background-color: white;
+  border-bottom: 1px solid #DDD;
+  position: sticky;
+  top:0;
 }
 
 /* Loading circle */

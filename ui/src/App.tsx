@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { Prompt, PromptCard } from './components/PromptCard'
-import { Button } from "@/components/ui/button"
 import { Header } from './components/Header'
 import { PromptForm } from './components/PromptForm'
 
