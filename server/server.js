@@ -138,7 +138,28 @@ app.get('/prompts/new', (req, res) => {
 
 /* Create new prompt */
 app.post('/prompts', (req, res) => {
-  res.send('create a new prompt')
+  const newPrompt = req.body
+
+  const newPromptData = {
+    TableName: 'prompts',
+    Item: {
+      id: Number(newPrompt.id),
+      header: newPrompt.header,
+      content: newPrompt.content,
+      category: newPrompt.category,
+      votes: 0,
+      usage: 0,
+    },
+  };
+  dynamodb.put(newPromptData, (err, data) => {
+    if (err) {
+      console.error('Error creating a new prompt:', err);
+      res.status(500).json({ error: 'Failed to create a new prompt' });
+    } else {
+      console.log('New prompt created:', data);
+      res.status(201).json({ message: 'Prompt created successfully' });
+    }
+  });
 })
 
 /* Delete prompt from id */
