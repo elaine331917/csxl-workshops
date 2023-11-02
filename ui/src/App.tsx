@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { Prompt, PromptCard } from './components/PromptCard'
 import { Button } from "@/components/ui/button"
+import { Header } from './components/Header'
 
 const MAX_CHARACTERS: number = 136;
 
@@ -52,8 +53,9 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Featured Prompts</h1>
-      <Button className="bg-plum-800 text-white w-36" onClick={fetchData}>Fetch Data</Button>
+      <Header></Header>
+      <h1 className="text-4xl pt-5">Featured Prompts</h1>
+      {/* <Button className="bg-plum-800 text-white w-36" onClick={fetchData}>Fetch Data</Button> */}
       <br></br>
       { data && <Grid prompts={data}></Grid>}
     </div>
