@@ -118,9 +118,7 @@ app.get('/prompts/:id', (req, res) => {
 
   const params = {
     TableName: 'Prompts',
-    Key: {
-      ID: Number(id),
-    },
+    Key: { id: parseInt(id) },
   };
 
   dynamodb.get(params, (err, data) => {
@@ -154,29 +152,29 @@ app.put('/prompts/:id/edit', (req, res) => {
   const id = req.params.id
   const newData = req.body;
 
-  const promptToUpdate = prompts.find((prompt) => prompt.id == id);
+  const params = {
+    TableName: 'prompts',
+    Key: { id: parseInt(id) },
+    UpdateExpression: 'set #votes = :votes',
+    ExpressionAttributeNames: {
+      '#votes': 'votes'
+    },
+    ExpressionAttributeValues: {
+      ':votes': parseInt(newData.votes)
+    },
+    ReturnValues: 'UPDATED_NEW',
+  };
 
-  if (!promptToUpdate) {
-    return res.status(404).json({ error: 'Prompt not found' });
-  }
-  
-  if (newData.header !== undefined) {
-    promptToUpdate.header = newData.header;
-  }
-  if (newData.content !== undefined) {
-    promptToUpdate.content = newData.content;
-  }
-  if (newData.votes !== undefined) {
-    promptToUpdate.votes = newData.votes;
-  }
-  if (newData.category !== undefined) {
-    promptToUpdate.category = newData.category;
-  }
-  if (newData.usage !== undefined) {
-    promptToUpdate.usage = newData.usage;
-  }
-  console.log(`Edited prompt with id: ${id} to vote: ${newData.votes}`)
-  res.send(`edit prompt with id: ${id}`)
+  // Update the item in DynamoDB
+  dynamodb.update(params, (err, data) => {
+    if (err) {
+      console.error('Error updating prompt:', err);
+      return res.status(500).json({ error: 'Failed to update prompt' });
+    } else {
+      console.log(`Updated prompt with ID: ${id}`);
+      return res.json({ message: `Updated prompt with ID: ${id}` });
+    }
+  });
 })
 
 app.listen(port, () => {
