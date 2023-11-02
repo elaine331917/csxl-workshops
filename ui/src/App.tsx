@@ -32,22 +32,29 @@ function Grid({ prompts }: GridProps) {
 
 function App() {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchData(); // Initial data fetch
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await fetch("http://localhost:3000/prompts");
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Network response not ok");
       }
       const data = await response.json();
       setData(data);
       console.log(data)
     } catch (error) {
       console.error("Error fetching data:", error);
+      setError('An error occurred while fetching data: ' + error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +62,8 @@ function App() {
     <div className="app">
       <Header></Header>
       <h1 className="text-4xl pt-5">Featured Prompts</h1>
+      { loading && <div className="loading-circle"></div>}
+      { error && <div>Error: {error}</div>}
       {/* <Button className="bg-plum-800 text-white w-36" onClick={fetchData}>Fetch Data</Button> */}
       <br></br>
       { data && <Grid prompts={data}></Grid>}
