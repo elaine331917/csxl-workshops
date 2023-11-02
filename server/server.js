@@ -3,6 +3,7 @@ const cors = require('cors');
 const AWS = require('aws-sdk');
 const app = express()
 const port = 3000
+const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 
 app.use(cors());
 app.use(express.json())
@@ -13,6 +14,26 @@ AWS.config.update({
 });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+const tableName = 'PromptsLibrary';
+
+async function insertPromptsData() {
+  for (const prompt of prompts) {
+    const params = {
+      TableName: tableName,
+      Item: prompt,
+    };
+
+    try {
+      await dynamoDB.put(params).promise();
+      console.log(`Inserted prompt with ID: ${prompt.id}`);
+    } catch (error) {
+      console.error(`Error inserting prompt with ID: ${prompt.id}`, error);
+    }
+  }
+}
+
+insertPromptsData();
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -117,7 +138,11 @@ app.get('/prompts/:id', (req, res) => {
       console.error('Error:', err);
       res.status(500).json({ error: 'Failed to retrieve item from DynamoDB' });
     } else {
-      res.send(data.Item);
+      if (data.Item) {
+        res.json(data.Item);
+      } else {
+        res.status(404).json({ message: 'Prompt not found' });
+      }
     }
   });
 })

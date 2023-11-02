@@ -48,7 +48,26 @@ export function PromptCard({ prompt }: PromptCardProps) {
           setIsPending(false);
         });
     }
+
+    const handlePromptClick = async () => {
+      setIsPending(true);
   
+      try {
+        const response = await fetch(`http://localhost:3000/prompt/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Data received successfully:', data);
+          setIsPending(false);
+        } else {
+          console.error('Request failed with status:', response.status);
+          setIsPending(false);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+        setIsPending(false);
+      }
+    }
+    
     return (
       <>
         <Card className="inline-flex flex-col custom-card border-2 rounded-xl border-plum-700 bg-white">
@@ -75,14 +94,14 @@ export function PromptCard({ prompt }: PromptCardProps) {
                 </svg>
               </Button>
               { !isPending && <div className="px-2 text-plum-700">{votes}</div>}
-              { isPending && <div className="px-2 text-plum-700">Voting...</div>}
-              
+              { isPending && <div className="px-2 text-plum-700">Voting...</div>} 
               <Button variant="ghost" size="icon" onClick={() => handleVote(false)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="29" viewBox="0 0 25 29" fill="none">
                   <path d="M23.5995 15.1477L13.2619 27.3095C12.8626 27.7793 12.1374 27.7793 11.7381 27.3095L1.4005 15.1477C0.848438 14.4982 1.31003 13.5 2.16244 13.5L6.35294 13.5C6.90523 13.5 7.35294 13.0523 7.35294 12.5V2C7.35294 1.44772 7.80066 1 8.35294 1L16.6471 1C17.1993 1 17.6471 1.44772 17.6471 2L17.6471 12.5C17.6471 13.0523 18.0948 13.5 18.6471 13.5H22.8376C23.69 13.5 24.1516 14.4982 23.5995 15.1477Z" stroke="#650360" strokeWidth="2"/>
                 </svg>
               </Button>
-            </div>
+              <Button className="bg-plum-500 text-white w-36" onClick={handlePromptClick}>Get Prompt</Button>
+            </div> 
           </CardFooter>
         </Card>
       </>
