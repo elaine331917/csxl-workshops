@@ -1,0 +1,74 @@
+#btn-more {
+    margin:0.5rem;
+}
+
+h2 {
+    font-weight: bold;
+    margin-left:1rem;
+    margin-top:1rem;
+}
+
+.mat-card-actions {
+    display:flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width:stretch;
+}
+
+h4 {
+    margin-left: 2%;
+    margin-top: 3%;
+    font-weight: bold;
+}
+
+/* unvisited link */
+a.google-form:link {
+    color: white;
+  }
+  
+/* visited link */
+  a.google-form:visited {
+    color: white;
+}
+  
+/* mouse over link */
+a.google-form:hover {
+    color: cornflowerblue;
+}
+  
+/* selected link */
+a.google-form:active {
+    color: white;
+}
+
+.mat-card {
+    width: max-content;
+    padding: 2%;
+}
+
+.my-workshops {
+    margin-left: 10%;
+}
+
+.all-workshops {
+    margin-left: 2%;
+}
+
+p {
+    margin-left: 1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+mat-card-title {
+    font-size: medium;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+mat-card-subtitle, h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

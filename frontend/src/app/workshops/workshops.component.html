@@ -1,0 +1,51 @@
+<a mat-raised-button type="button" href="/profile" id="btn-back" *ngIf="!(userDetails$ | async)">Please make a profile first.</a>
+<div class="container" *ngIf="(registeredWorkshopIds$ | async)">
+    <div class="all-workshops">
+        <h2>All workshops</h2>
+        <div *ngFor="let workshop of workshops$ | async">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{ workshop.name }}</mat-card-title>
+                    <mat-card-subtitle>
+                        <p> {{ workshop.date }} at {{ workshop.time }} </p> 
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Capacity: {{ workshop.capacity }}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <a mat-raised-button type="button" href="/event/{{ workshop.id }}" id="btn-more">Learn More</a>
+                    <a *ngIf="!(registeredWorkshopIds$ | async)?.includes(workshop.id)" mat-raised-button type="submit" (click)="register(workshop.id)" id="btn-register">Register</a>
+                    <a *ngIf="(registeredWorkshopIds$ | async)?.includes(workshop.id)" mat-raised-button type="submit" (click)="deregister(workshop.id)" id="btn-deregister">Deregister</a>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    <div class="my-workshops">
+        <h2>My registered workshops</h2>
+        <div *ngFor="let workshop of registeredWorkshops$ | async">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{ workshop.name }}</mat-card-title>
+                    <mat-card-subtitle>
+                        <p> {{ workshop.date }} at {{ workshop.time }} </p> 
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Description: {{ workshop.description }}</p>
+                    <p>Capacity: {{ workshop.capacity }}</p>
+                </mat-card-content> <br>
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <p> Host: {{ workshop.host_name }} ({{ workshop.host_email }}) </p> 
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-actions>
+                    <a mat-raised-button type="submit" (click)="deregister(workshop.id)" id="btn-deregister">Deregister</a>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
+<h4>Do you have an idea for a workshop? Give us your suggestions <a class="google-form" href="https://docs.google.com/forms/d/e/1FAIpQLScrcH1LHLYGnJfd7x8EdRcI-LXi057gvxKXLA23X5OFAP0mDg/viewform" target="_blank">here!</a> </h4>
+

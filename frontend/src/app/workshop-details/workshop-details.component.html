@@ -1,0 +1,26 @@
+<a mat-raised-button type="button" href="/event" id="btn-back">Back</a>
+<div *ngIf="(workshop$ | async) as workshop">
+    <mat-card> 
+        <mat-card-header>
+            <mat-card-title>{{ workshop.name }}</mat-card-title>
+            <mat-card-subtitle>
+                <p> {{ workshop.date }} at {{ workshop.time }}
+                <p> Host: {{ workshop.host_name }} ({{ workshop.host_email }}) </p>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <h3> Workshop Description: </h3> 
+            <p> {{ workshop.description }} </p>
+            <br>
+            <h3> Seats Filled / Capacity: </h3>
+            <p *ngIf="filled$ | async as filled">{{ filled }} / {{ workshop.capacity }} </p>
+            <br>
+            <h3> List of Attendees: </h3>
+            <div *ngFor="let user of users$ | async">
+                <p id="users"> {{ user.first_name }} {{ user.last_name }} </p>
+            </div> <br>
+            <a *ngIf="!(pids$ | async)?.includes(pid!)" mat-raised-button type="submit" id="btn-register" (click)="register(workshop.id)">Register</a>
+            <a *ngIf="(pids$ | async)?.includes(pid!)" mat-raised-button type="submit" id="btn-deregister" (click)="deregister(workshop.id)">Deregister</a>
+        </mat-card-content>
+    </mat-card>
+</div>
